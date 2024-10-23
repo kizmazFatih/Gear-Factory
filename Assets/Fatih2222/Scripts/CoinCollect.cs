@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CoinCollect : MonoBehaviour
@@ -24,15 +25,10 @@ public class CoinCollect : MonoBehaviour
             Destroy(this);
         }
     }
-    void Update()
-    {
-       
-
-    }
 
 
 
-  
+
     void ThrowBag()
     {
         GameObject new_coin = Instantiate(coinforbag_prefab, spawn_point.position, Quaternion.identity);
@@ -52,7 +48,6 @@ public class CoinCollect : MonoBehaviour
         {
             Destroy(coins[coins.Count - 1]);
             coins.RemoveAt(coins.Count - 1);
-           // coin_count -= 1;
         }
     }
 

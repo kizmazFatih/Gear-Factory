@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrashDetector : MonoBehaviour
 {
-    [SerializeField] private CoinCollect coinCollect_cs;
+
 
 
 
@@ -12,7 +12,7 @@ public class TrashDetector : MonoBehaviour
     {
         if (other.gameObject.tag == "3Dcoin")
         {
-            coinCollect_cs.RemoveToCoinFromList(other.gameObject);
+            CoinCollect.instance.RemoveToCoinFromList(other.gameObject);
         }
     }
 }

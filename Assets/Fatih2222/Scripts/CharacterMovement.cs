@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.LowLevel;
 public class CharacterMovement : MonoBehaviour
 {
 
-  private CoinCollect coinCollect_cs;
+
   [SerializeField] private Canvas miniGame_canvas;
   [SerializeField] private MiniGame miniGame_cs;
 
@@ -38,9 +38,8 @@ public class CharacterMovement : MonoBehaviour
   void Start()
   {
 
-    coinCollect_cs = GetComponent<CoinCollect>();
     current_speed = run_speed;
-
+    EventDispatcher.RegisterFunction("FullEnergy", FullEnergy);
   }
 
 
@@ -64,6 +63,12 @@ public class CharacterMovement : MonoBehaviour
       miniGame_canvas.gameObject.SetActive(true);
       miniGame_cs.ActivateGame();
     }
+  }
+
+  void FullEnergy()
+  {
+    miniGame_canvas.gameObject.SetActive(false);
+    energy = 20f;
   }
   void UpdateEnergy()
   {
@@ -117,7 +122,7 @@ public class CharacterMovement : MonoBehaviour
 
           GameObject coin = Instantiate(coin_prefab, this.transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
           active_coins.Add(coin);
-          coin.transform.DOMove(slot_position, fill_speed).OnComplete(() => { coin.GetComponent<Rigidbody2D>().simulated = false; coinCollect_cs.RemoveToCoinFromList(null); });
+          coin.transform.DOMove(slot_position, fill_speed).OnComplete(() => { coin.GetComponent<Rigidbody2D>().simulated = false; CoinCollect.instance.RemoveToCoinFromList(null); });
 
         }
 
@@ -145,7 +150,7 @@ public class CharacterMovement : MonoBehaviour
       Destroy(active_coins[0]);
       active_coins.RemoveAt(0);
     }
-    coinCollect_cs.RemoveToCoinFromList(null);
+    CoinCollect.instance.RemoveToCoinFromList(null);
     current_slot = 0;
     StopCoroutine(RemoveCoinOnComplete());
 
@@ -197,7 +202,7 @@ public class CharacterMovement : MonoBehaviour
   {
     if (other.gameObject.tag == "Building")
     {
-
+building_cs = other.gameObject.GetComponent<Building>();
       can_interact = false;
       StartCoroutine(ControlBuildingUI());
     }

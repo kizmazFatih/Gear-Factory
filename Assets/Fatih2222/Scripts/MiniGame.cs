@@ -13,7 +13,7 @@ public class MiniGame : MonoBehaviour
     private bool traveling = true;
     private Vector2 start_pos;
 
-    public CharacterMovement characterMovement_cs;
+
 
     void Start()
     {
@@ -32,7 +32,7 @@ public class MiniGame : MonoBehaviour
         {
             if (AreUIElementsOverlapping(uiElement1, uiElement2))
             {
-                characterMovement_cs.energy = 20f;
+                EventDispatcher.SummonEvent("FullEnergy");
                 Debug.Log("UI elementleri carpisiyor!");
             }
             else
