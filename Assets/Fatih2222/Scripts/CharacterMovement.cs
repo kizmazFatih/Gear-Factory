@@ -121,9 +121,8 @@ public class CharacterMovement : MonoBehaviour
 
 
           GameObject coin = Instantiate(coin_prefab, this.transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
-          active_coins.Add(coin);
           coin.transform.DOMove(slot_position, fill_speed).OnComplete(() => { coin.GetComponent<Rigidbody2D>().simulated = false; CoinCollect.instance.RemoveToCoinFromList(null); });
-
+          active_coins.Add(coin);
         }
 
         if (current_slot == building_slot_count)
@@ -150,7 +149,6 @@ public class CharacterMovement : MonoBehaviour
       Destroy(active_coins[0]);
       active_coins.RemoveAt(0);
     }
-    CoinCollect.instance.RemoveToCoinFromList(null);
     current_slot = 0;
     StopCoroutine(RemoveCoinOnComplete());
 
@@ -202,7 +200,7 @@ public class CharacterMovement : MonoBehaviour
   {
     if (other.gameObject.tag == "Building")
     {
-building_cs = other.gameObject.GetComponent<Building>();
+      building_cs = other.gameObject.GetComponent<Building>();
       can_interact = false;
       StartCoroutine(ControlBuildingUI());
     }
@@ -231,14 +229,21 @@ building_cs = other.gameObject.GetComponent<Building>();
 
     if (context.performed)
     {
-      InvokeRepeating("FillCoin", 0.5f, 1f);
+      InvokeRepeating("FillCoin", 0.5f, 1.1f);
     }
     if (context.canceled)
     {
       CancelInvoke("FillCoin");
-      if (active_coins.Count > 0)
+      if (active_coins.Count != building_slot_count)
       {
-        StartCoroutine(DropCoin());
+        if (active_coins.Count > 0)
+        {
+          StartCoroutine(DropCoin());
+        }
+      }
+      else
+      {
+       StartCoroutine(RemoveCoinOnComplete());
       }
     }
   }

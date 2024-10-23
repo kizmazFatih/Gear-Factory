@@ -2099,7 +2099,7 @@ MonoBehaviour:
   active_coins: []
   coin_prefab: {fileID: 6283444194330273741, guid: d6796ca619147cf4fa7c2e5866d25469, type: 3}
   fill_speed: 1
-  drop_duration: 2
+  drop_duration: 0.6
   remove_duration: 2
 --- !u!114 &1670706738
 MonoBehaviour:
